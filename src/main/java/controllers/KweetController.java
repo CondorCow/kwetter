@@ -40,12 +40,12 @@ public class KweetController {
 
     @POST @Consumes(MediaType.APPLICATION_JSON)
     public Response newKweet(Kweet kweet) {
-        Kweet postedKweet = service.newKweet(new Kweet(kweet.getText(), kweet.getUser()));
-        if (postedKweet == null) {
+        Kweet newKweet = service.newKweet(new Kweet(kweet.getText(), kweet.getUser()));
+        if (newKweet == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.ok(postedKweet).build();
+        return Response.ok(newKweet).build();
     }
 
     @PUT @Consumes(MediaType.APPLICATION_JSON)

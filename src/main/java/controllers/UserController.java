@@ -22,6 +22,18 @@ public class UserController {
     @Inject
     private UserService service;
 
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response editUser(User user) {
+        User editedUser = service.updateUser(user);
+
+        if (editedUser == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(editedUser.serialized()).build();
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response newUser(User user) {
@@ -46,19 +58,6 @@ public class UserController {
         return Response.ok(user.serialized()).build();
     }
 
-
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response editUser(User user) {
-        User editedUser = service.updateUser(user);
-
-        if (editedUser == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return Response.ok(editedUser.serialized()).build();
-    }
-
     @PUT
     @Path("/role")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -77,6 +76,18 @@ public class UserController {
     public Response removeUser(@PathParam("id") long id) {
         service.deleteUser(id);
         return Response.ok(new ResponseBody(true, null)).build();
+    }
+
+    @GET
+    @Path("/{id}/following")
+    public Response getFollowing(@PathParam("id") long id) {
+        return Response.ok(service.getFollowing(id)).build();
+    }
+
+    @GET
+    @Path("/{id}/followers")
+    public Response getFollowers(@PathParam("id") long id) {
+        return Response.ok(service.getFollowers(id)).build();
     }
 
     @POST
@@ -112,17 +123,6 @@ public class UserController {
         return Response.ok(new ResponseBody(result,  error)).build();
     }
 
-    @GET
-    @Path("/{id}/following")
-    public Response getFollowing(@PathParam("id") long id) {
-        return Response.ok(service.getFollowing(id)).build();
-    }
-
-    @GET
-    @Path("/{id}/followers")
-    public Response getFollowers(@PathParam("id") long id) {
-        return Response.ok(service.getFollowers(id)).build();
-    }
 
 
 }
