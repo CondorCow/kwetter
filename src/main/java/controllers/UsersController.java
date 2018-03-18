@@ -23,7 +23,7 @@ public class UsersController {
     private UserService service;
 
     @GET
-    public Response getUsers() {
-        return Response.ok(service.getUsers()).build();
+    public Response getAllUsers() {
+        return Response.ok(service.getAllUsers()).build();
     }
 }

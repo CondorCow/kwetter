@@ -30,80 +30,83 @@ public class KweetService {
         super();
     }
 
+    /**
+     * Get specific kweet according to it's ID
+     * @param id : the kweet's id to be found
+     * @return Kweet : the found kweet
+     */
     public Kweet getKweet(long id) {
         return kweetDao.findById(id);
     }
 
     /**
-     * Check if kweet is between 0 and 140 characters
-     * Adds kweet to designated list of user's kweets
-     *
-     * @param kweet, to create with text and user id
-     * @return Kweet, that gets posted)
+     * @param userId : identifier of the user
+     * @return List : user's kweets
+     */
+    public List<Kweet> getUserKweets(long userId) {
+        User user = userDao.findById(userId);
+        if (user == null) return null;
+
+        return kweetDao.findByUser(userId);
+    }
+
+    /**
+     * @param kweet : the kweet to be updated
+     * @return Kweet : the new kweet with updated text
+     */
+    public Kweet editKweet(Kweet kweet) {
+        String text = kweet.getText();
+        if (StringUtils.isNullOrEmpty(text) || text.length() > 140) {
+            return null;
+        }
+
+        Kweet oKweet = kweetDao.findById(kweet.getId());
+        if (oKweet == null) return null;
+
+        oKweet.setText(kweet.getText());
+
+        return kweetDao.update(oKweet);
+    }
+
+    /**
+     * Posts a kweet for the logged in user, and adds it to his/hers list
+     * @param kweet : the kweet that will be created by using the logged in user and text
+     * @return Kweet : returns the uploaded kweet)
      */
     public Kweet newKweet(Kweet kweet) {
-        String text = kweet.getText();
-        if (!StringUtils.isNullOrEmpty(text) && text.length() <= 140) {
-            User user = userDao.findById(kweet.getUser().getId());
+        String message = kweet.getText();
+        if(!message.isEmpty() && message != null && message.length() <= 140) {
+            long userId = kweet.getUser().getId();
+            User user = userDao.findById(userId);
 
             if (user != null) {
-                Kweet createdKweet = kweetDao.create(kweet);
-                user.addKweet(createdKweet);
+                Kweet newKweet = kweetDao.create(kweet);
+                user.addKweet(newKweet);
+                //Update the user so it has the new kweet in the list
                 userDao.update(user);
-                return createdKweet;
+                return newKweet;
             }
         }
         return null;
     }
 
     /**
-     * Check if new text is empty, initiate a new Kweet instance
-     *
-     * @param kweet, with kweet id to update and new text
-     * @return Kweet, newly created kweet
-     */
-    public Kweet editKweet(Kweet kweet) {
-        String text = kweet.getText();
-        if (StringUtils.isNullOrEmpty(text) || text.length() > 140) return null;
-
-        Kweet originalKweet = kweetDao.findById(kweet.getId());
-        if (originalKweet == null) return null;
-
-        originalKweet.setText(kweet.getText());
-
-        return kweetDao.update(originalKweet);
-    }
-
-    /**
-     * @param id, id of user to get kweets from
-     * @return List<Kweet>, list of kweets found
-     */
-    public List<Kweet> getUserKweets(long id) {
-        User user = userDao.findById(id);
-        if (user == null) return null;
-
-        return kweetDao.findByUser(id);
-    }
-
-    /**
-     * This method gets the kweets of the user and the
-     * kweets of the users following
-     *
-     * @param id, of the user to get kweets and following from
-     * @return List<Kweet>, list of kweets found
-     */
-    public List<Kweet> getFullTimeline(long id) {
-        User user = userDao.findById(id);
-        if (user == null) return null;
-
-        return kweetDao.findForUser(user);
-    }
-
-    /**
-     * @param id, of kweet to remove
+     * @param id : kweet identifier
      */
     public void deleteKweet(long id) {
         Kweet kweet = kweetDao.findById(id);
         kweetDao.remove(kweet);
     }
+
+    /**
+     * Get all the kweets of the followings and it's own kweets
+     * @param userId : identifier of the logged in user
+     * @return List : all combined kweets of following kweets and own kweets
+     */
+    public List<Kweet> getFullTimeline(long userId) {
+        User user = userDao.findById(userId);
+        return user == null ? null : kweetDao.findForUser(user);
+    }
+
+
 }

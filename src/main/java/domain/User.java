@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import support.Role;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -21,7 +22,6 @@ import java.util.Set;
 @Entity
 @XmlRootElement
 public class User implements Serializable {
-    // TODO: Lazy collection verwijderen
 
     @Id
     @GeneratedValue
@@ -37,19 +37,25 @@ public class User implements Serializable {
     private String website;
     private Role role;
 
+    // LazyCollectionOption for only getting the info when needed e.g. when calling getFollowers()
+    // Works now, got a nullreference before
+
     @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "following")
     @LazyCollection(LazyCollectionOption.FALSE)
+    //Tegen endless loop
     @JsonIgnore
     private List<User> followers = new ArrayList<>();
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)
+    //Tegen endless loop
     @JsonIgnore
     private List<User> following = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
-    @JsonManagedReference
     @LazyCollection(LazyCollectionOption.FALSE)
+    //Tegen endless loop
+    @JsonManagedReference
     private List<Kweet> kweets = new ArrayList<>();
 
     public User(String username, String password, Role role) {
@@ -58,11 +64,6 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public enum Role {
-        USER,
-        MODERATOR,
-        ADMINISTRATOR
-    }
 
     public User() {}
 
@@ -112,6 +113,7 @@ public class User implements Serializable {
         return false;
     }
 
+    //region getters and setters
     public long getId() {
         return id;
     }
@@ -207,6 +209,8 @@ public class User implements Serializable {
     public void setKweets(List<Kweet> kweets) {
         this.kweets = kweets;
     }
+
+    //endregion
 
     @Override
     public boolean equals(Object obj) {

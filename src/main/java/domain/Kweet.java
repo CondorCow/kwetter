@@ -23,8 +23,6 @@ import java.util.regex.Pattern;
 @Entity
 @XmlRootElement
 public class Kweet implements Serializable {
-    // TODO: Lazy collection verwijderen
-
     @Id
     @GeneratedValue
     private long id;
@@ -47,6 +45,7 @@ public class Kweet implements Serializable {
 
     public Kweet() {}
 
+    //region getters and setters
     public long getId() {
         return id;
     }
@@ -79,4 +78,5 @@ public class Kweet implements Serializable {
         this.date = date;
     }
 
+    //endregion
 }

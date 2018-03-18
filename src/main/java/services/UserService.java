@@ -9,6 +9,7 @@ import com.mysql.cj.core.util.StringUtils;
 import dao.IUserDao;
 import dao.JPA;
 import domain.User;
+import support.Role;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.inject.Inject;
@@ -23,17 +24,6 @@ public class UserService {
 
     public UserService() {
         super();
-    }
-
-    /**
-     * @param username : the users username
-     * @param password : the users password to log in
-     * @return User, created
-     */
-    public User newUser(String username, String password) {
-        return (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password))
-                ? null
-                : userDao.create(new User(username, password, User.Role.USER));
     }
 
     /**
@@ -98,7 +88,7 @@ public class UserService {
      * @return List<User> : list of all the users in Kwetter
      */
     //Getter for all users
-    public List<User> getUsers() {
+    public List<User> getAllUsers() {
         return userDao.findAll();
     }
 
@@ -145,17 +135,27 @@ public class UserService {
     }
 
     /**
+     * @param username : the users username
+     * @param password : the users password to log in
+     * @return User, created
+     */
+    public User newUser(String username, String password) {
+        return (StringUtils.isNullOrEmpty(username) || StringUtils.isNullOrEmpty(password))
+                ? null
+                : userDao.create(new User(username, password, Role.USER));
+    }
+
+    /**
      * @param id : identifier of the user which's role has to be changed
      * @param newRole : the new role to be assigned
      * @return User : returns the new User with his new role
      */
-    public User assignNewRole(long id, User.Role newRole) {
+    public User assignNewRole(long id, Role newRole) {
 //        if(id == null) return null;
         User user = userDao.findById(id);
         if (user == null || newRole == null) {
             return null;
         }
-
         user.setRole(newRole);
         return userDao.update(user);
     }

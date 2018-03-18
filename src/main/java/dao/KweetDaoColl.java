@@ -27,12 +27,6 @@ public class KweetDaoColl implements IKweetDao {
                 .orElse(null);
     }
 
-    public List<Kweet> findByText(String text) {
-        return kweets.stream()
-                .filter(kweet -> kweet.getText().contains(text))
-                .collect(Collectors.toList());
-    }
-
     public List<Kweet> findForUser(User entity) {
         List<Kweet> foundKweets = findByUser(entity.getId());
         for (Kweet kweet : kweets) {

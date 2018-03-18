@@ -14,7 +14,7 @@ public class ResponseBody {
         this.message = message;
     }
 
-    public boolean isResponse() {
+    public boolean getResponse() {
         return response;
     }
 
