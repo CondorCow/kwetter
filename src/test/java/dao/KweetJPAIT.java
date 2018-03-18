@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import domain.Kweet;
@@ -92,21 +97,6 @@ public class KweetJPAIT {
 
         List<Kweet> foundKweets = kweetDao.findAll();
         assertEquals(2, foundKweets.size());
-
-        transaction.commit();
-    }
-
-    @Test
-    public void findKweetsByTextShouldReturnListOfKweetsIfMatchFound() {
-        transaction.begin();
-
-        addKweet();
-
-        List<Kweet> kweetsFound = kweetDao.findByText("hello");
-        assertEquals(1, kweetsFound.size());
-
-        List<Kweet> kweetsNotFound = kweetDao.findByText("unknown");
-        assertEquals(0, kweetsNotFound.size());
 
         transaction.commit();
     }

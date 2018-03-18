@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package services;
 
 import com.mysql.cj.core.util.StringUtils;
@@ -75,7 +80,7 @@ public class UserService {
         User user = userDao.findById(id);
         if (user != null) {
 //            return;
-            userDao.delete(user);
+            userDao.remove(user);
         }
     }
 
@@ -144,7 +149,7 @@ public class UserService {
      * @param newRole : the new role to be assigned
      * @return User : returns the new User with his new role
      */
-    public User editRole(long id, User.Role newRole) {
+    public User assignNewRole(long id, User.Role newRole) {
 //        if(id == null) return null;
         User user = userDao.findById(id);
         if (user == null || newRole == null) {

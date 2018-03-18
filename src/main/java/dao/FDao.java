@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import javax.persistence.EntityManager;
@@ -39,7 +44,7 @@ public abstract class FDao<T> {
                 .getResultList();
     }
 
-    public void delete(T entity) {
+    public void remove(T entity) {
         entityManager.remove(entity);
     }
 }

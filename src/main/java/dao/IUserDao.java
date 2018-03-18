@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import domain.User;
@@ -19,5 +24,5 @@ public interface IUserDao {
 
     User update(User entity);
 
-    void delete(User entity);
+    void remove(User entity);
 }

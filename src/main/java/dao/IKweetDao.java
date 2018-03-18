@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import domain.Kweet;
@@ -7,8 +12,6 @@ import java.util.List;
 
 public interface IKweetDao {
     Kweet findById(long id);
-
-    List<Kweet> findByText(String text);
 
     List<Kweet> findByUser(long id);
 
@@ -20,5 +23,5 @@ public interface IKweetDao {
 
     Kweet update(Kweet entity);
 
-    void delete(Kweet entity);
+    void remove(Kweet entity);
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import dao.IKweetDao;
@@ -65,7 +70,7 @@ public class KweetDaoColl implements IKweetDao {
         return null;
     }
 
-    public void delete(Kweet entity) {
+    public void remove(Kweet entity) {
         kweets.remove(entity);
     }
 }

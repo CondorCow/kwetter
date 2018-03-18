@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import dao.IUserDao;
@@ -59,7 +64,7 @@ public class UserDaoColl implements IUserDao {
         return null;
     }
 
-    public void delete(User entity) {
+    public void remove(User entity) {
         users.remove(entity);
     }
 }

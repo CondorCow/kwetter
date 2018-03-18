@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import domain.User;
@@ -111,7 +116,7 @@ public class UserCollTest {
         User user = new User("Testuser1", "Password1", User.Role.USER);
         dao.create(user);
 
-        dao.delete(user);
+        dao.remove(user);
         assertEquals(0, dao.findAll().size());
     }
 }

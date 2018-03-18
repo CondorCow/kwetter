@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

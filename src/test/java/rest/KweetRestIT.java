@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package rest;
 
 import io.restassured.RestAssured;
@@ -57,22 +62,6 @@ public class KweetRestIT {
         given().contentType("application/json").body(json)
                 .when().put("/kwetter/api/kweet")
                 .then().statusCode(NOT_FOUND);
-    }
-
-    @Test
-    public void searchKweetsShouldResultReturnArrayAndOk() {
-        given()
-                .when().get("/kwetter/api/kweet/search/stad")
-                .then().statusCode(OK)
-                .body("$", not(hasSize(0)));
-    }
-
-    @Test
-    public void searchKweetsWithEmptyResultShouldReturnEmptyArrayAndOk() {
-        given()
-                .when().get("/kwetter/api/kweet/search/bericht")
-                .then().statusCode(OK)
-                .body("$", hasSize(0));
     }
 
     @Test

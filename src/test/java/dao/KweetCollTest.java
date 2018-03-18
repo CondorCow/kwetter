@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import domain.Kweet;
@@ -29,18 +34,6 @@ public class KweetCollTest {
 
         Kweet notFoundKweet = dao.findById(10);
         assertNull(notFoundKweet);
-    }
-
-    @Test
-    public void findByKweetByText() {
-        Kweet inserted = new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER));
-        dao.create(inserted);
-
-        List<Kweet> foundKweets = dao.findByText("yo");
-        assertEquals("@fantastic yo", foundKweets.get(0).getText());
-
-        List<Kweet> notFoundKweets = dao.findByText("kweetmessage");
-        assertEquals(0, notFoundKweets.size());
     }
 
     @Test
@@ -100,7 +93,7 @@ public class KweetCollTest {
         Kweet kweet = new Kweet("@fantastic yo", new User("Testuser1", "Password1", User.Role.USER));
         dao.create(kweet);
 
-        dao.delete(kweet);
+        dao.remove(kweet);
         assertEquals(0, dao.findAll().size());
     }
 }

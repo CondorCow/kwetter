@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package controllers;
 
 import javax.ws.rs.ApplicationPath;

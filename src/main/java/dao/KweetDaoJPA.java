@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import domain.Kweet;
@@ -22,13 +27,6 @@ public class KweetDaoJPA extends FDao<Kweet> implements IKweetDao {
     public KweetDaoJPA(EntityManager em) {
         super(Kweet.class, em);
         this.em = em;
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Kweet> findByText(String text) {
-        return em.createQuery("SELECT k FROM Kweet k WHERE LOWER(k.text) LIKE LOWER(:text)")
-                .setParameter("text", "%" + text + "%")
-                .getResultList();
     }
 
     @SuppressWarnings("unchecked")

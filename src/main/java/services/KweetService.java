@@ -1,3 +1,9 @@
+
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package services;
 
 import com.mysql.cj.core.util.StringUtils;
@@ -7,21 +13,17 @@ import dao.JPA;
 import domain.Kweet;
 import domain.User;
 
-import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
 //@Stateless
 public class KweetService {
-    @Inject
-    @JPA
+    @Inject @JPA
     private IKweetDao kweetDao;
 
-    @Inject
-    @JPA
+    @Inject @JPA
     private IUserDao userDao;
 
     public KweetService() {
@@ -90,7 +92,7 @@ public class KweetService {
      * @param id, of the user to get kweets and following from
      * @return List<Kweet>, list of kweets found
      */
-    public List<Kweet> getTimeline(long id) {
+    public List<Kweet> getFullTimeline(long id) {
         User user = userDao.findById(id);
         if (user == null) return null;
 
@@ -98,22 +100,10 @@ public class KweetService {
     }
 
     /**
-     * @param text, keyword to match
-     * @return List<Kweet>, where keyword was found in text
-     */
-    public List<Kweet> searchKweets(String text) {
-        if (StringUtils.isNullOrEmpty(text)) {
-            return new ArrayList<>();
-        }
-
-        return kweetDao.findByText(text);
-    }
-
-    /**
      * @param id, of kweet to remove
      */
-    public void removeKweet(long id) {
+    public void deleteKweet(long id) {
         Kweet kweet = kweetDao.findById(id);
-        kweetDao.delete(kweet);
+        kweetDao.remove(kweet);
     }
 }

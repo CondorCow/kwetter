@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package controllers;
 
 import com.google.gson.Gson;
@@ -34,7 +39,7 @@ public class KweetController {
     }
 
     @POST @Consumes(MediaType.APPLICATION_JSON)
-    public Response postKweet(Kweet kweet) {
+    public Response newKweet(Kweet kweet) {
         Kweet postedKweet = service.newKweet(new Kweet(kweet.getText(), kweet.getUser()));
         if (postedKweet == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -58,13 +63,8 @@ public class KweetController {
 
     @DELETE @Path("/{id}")
     public Response deleteKweet(@PathParam("id") long id) {
-        service.removeKweet(id);
+        service.deleteKweet(id);
         return Response.ok(new ResponseBody(true, "Success")).build();
-    }
-
-    @GET @Path("/search/{text}")
-    public Response searchKweets(@PathParam("text") String text) {
-        return Response.ok(service.searchKweets(text)).build();
     }
 
     @GET @Path("/user/{id}")
@@ -79,8 +79,8 @@ public class KweetController {
     }
 
     @GET @Path("/timeline/{id}")
-    public Response getTimeline(@PathParam("id") long id) {
-        return Response.ok(service.getTimeline(id)).build();
+    public Response getFullTimeline(@PathParam("id") long id) {
+        return Response.ok(service.getFullTimeline(id)).build();
     }
 
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package controllers;
 
 import domain.User;
@@ -56,7 +61,7 @@ public class UserController {
     @POST
     @Path("/auth")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response authenticate(User user) {
+    public Response authorize(User user) {
         if (service.authorizeUser(user)) {
             return Response.ok(new ResponseBody(true, "authorized")).build();
         }
@@ -101,8 +106,8 @@ public class UserController {
     @PUT
     @Path("/role")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response editRole(User user) {
-        User userWithNewRole = service.editRole(user.getId(), user.getRole());
+    public Response assignNewRole(User user) {
+        User userWithNewRole = service.assignNewRole(user.getId(), user.getRole());
 
         if (userWithNewRole == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();

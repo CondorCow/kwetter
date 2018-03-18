@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2018.
+ * Danny Janssen
+ */
+
 package dao;
 
 import domain.User;
@@ -109,7 +114,7 @@ public class UserJPAIT {
 
         int initialLength = dao.findAll().size();
         User user = dao.findByUsername("username");
-        dao.delete(user);
+        dao.remove(user);
 
         int newLength = dao.findAll().size();
         assertNotEquals(initialLength, newLength);
